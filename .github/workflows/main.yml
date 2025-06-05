@@ -16,9 +16,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Merge the pull request
       - name: Debug GH_TOKEN availability
         env:
-          GH_TOKEN: ${{ secrets.PAT }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           if [ -z "$GH_TOKEN" ]; then
             echo "ERROR: GH_TOKEN is empty!"
@@ -26,9 +27,3 @@ jobs:
           else
             echo "GH_TOKEN is set."
           fi
-      - name: Merge the pull request
-        env:
-          GH_TOKEN: ${{ secrets.PAT }}
-        run: |
-          gh auth status
-          gh pr merge ${{ github.event.pull_request.html_url }} --merge --delete-branch --admin
